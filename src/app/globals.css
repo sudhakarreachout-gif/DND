@@ -27,7 +27,6 @@
   }
 
   * {
-    cursor: none !important; /* Managed by CustomCursor.tsx */
     font-weight: 300; /* Default Jost Light */
   }
 
@@ -131,8 +130,25 @@
   transition: width 0.3s ease, height 0.3s ease, background-color 0.3s ease;
 }
 
+
 #custom-cursor-ring.active {
   width: 48px;
   height: 48px;
   background-color: rgba(212, 175, 55, 0.15);
+}
+
+/* Cursor Management */
+@media (min-width: 1024px) {
+  * {
+    cursor: none !important;
+  }
+}
+
+@media (max-width: 1023px) {
+  #custom-cursor-dot,
+  #custom-cursor-ring {
+    display: none !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+  }
 }

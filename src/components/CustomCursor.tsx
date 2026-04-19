@@ -6,8 +6,23 @@ export default function CustomCursor() {
   const dotRef = useRef<HTMLDivElement>(null);
   const ringRef = useRef<HTMLDivElement>(null);
   const [isHovering, setIsHovering] = useState(false);
+  const [isTouch, setIsTouch] = useState(false);
 
   useEffect(() => {
+    const checkTouch = () => {
+      const hasTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+      const isNarrow = window.innerWidth < 1024;
+      const isCoarse = window.matchMedia("(pointer: coarse)").matches;
+      setIsTouch(hasTouch || isNarrow || isCoarse);
+    };
+
+    checkTouch();
+    window.addEventListener('resize', checkTouch);
+    return () => window.removeEventListener('resize', checkTouch);
+  }, []);
+
+  useEffect(() => {
+    if (isTouch) return;
     const dot = dotRef.current;
     const ring = ringRef.current;
     if (!dot || !ring) return;
@@ -21,10 +36,8 @@ export default function CustomCursor() {
       mouseX = e.clientX;
       mouseY = e.clientY;
 
-      // Dot is immediate
       dot.style.transform = `translate3d(${mouseX}px, ${mouseY}px, 0) translate(-50%, -50%)`;
       
-      // Check for clickable elements
       const target = e.target as HTMLElement;
       const isClickable = !!(
         target.tagName === "A" || 
@@ -38,9 +51,7 @@ export default function CustomCursor() {
     };
 
     const animate = () => {
-      // 0.1s lag implies social interpolation
-      // ring moves toward mouse position by a factor per frame
-      const lerp = 0.15; // Adjusted for roughly 0.1s feel @ 60fps
+      const lerp = 0.15;
       ringX += (mouseX - ringX) * lerp;
       ringY += (mouseY - ringY) * lerp;
 
@@ -55,7 +66,9 @@ export default function CustomCursor() {
       window.removeEventListener("mousemove", onMouseMove);
       cancelAnimationFrame(animationId);
     };
-  }, []);
+  }, [isTouch]);
+
+  if (isTouch) return null;
 
   return (
     <>

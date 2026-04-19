@@ -86,7 +86,7 @@ export default function Navigation() {
     <>
       {/* Sleek Horizontal Top-Bar */}
       <nav
-        className={`fixed top-0 left-0 w-full z-[200] transition-all duration-700 px-6 md:px-12 py-6 flex items-center justify-between
+        className={`fixed top-0 left-0 w-full z-[400] transition-all duration-700 px-6 md:px-12 py-6 flex items-center justify-between
           ${isScrolled ? "bg-canvas/80 backdrop-blur-lg py-4 border-b border-gold/10 shadow-sm" : "bg-transparent"}
         `}
       >
@@ -143,7 +143,7 @@ export default function Navigation() {
       {/* Full-Screen Mobile Overlay */}
       <div
         ref={overlayRef}
-        className="fixed inset-0 bg-anchor z-[300] flex items-center justify-center overflow-hidden md:hidden"
+        className={`fixed inset-0 bg-anchor z-[300] flex items-center justify-center overflow-hidden md:hidden ${isOpen ? "pointer-events-auto" : "pointer-events-none"}`}
         style={{ clipPath: "inset(0 0 100% 0)" }}
       >
         <span className="absolute top-10 right-10 text-[10px] tracking-[0.4em] uppercase text-gold/40 font-cinzel">
