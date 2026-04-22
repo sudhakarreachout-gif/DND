@@ -58,7 +58,7 @@ export default function HeroSection() {
         {images.map((src, i) => (
           <div 
             key={src}
-            className="hero-img absolute inset-0 w-full h-full opacity-0"
+            className="hero-img absolute inset-0 w-full h-full opacity-0 blur-[6px] brightness-[0.85] scale-[1.05]"
           >
             <Image
               src={src}
